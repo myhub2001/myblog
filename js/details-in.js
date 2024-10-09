@@ -277,7 +277,25 @@ const delike = async () =>{
 
             return batch.commit();   
 }
+const likests = async () =>{
+	
+	  
+	  
 
+      const querySnapshot = await db.collection("postslikes").where("postId", "==", id).get();
+
+            querySnapshot.forEach((doc) => {
+              console.log(doc.data().likeid)  
+			   console.log(cuser.uid)
+			   if(doc.data().likeid==cuser.uid){
+			   const likeicon = document.querySelector('.thumbsup');
+			   likeicon.classList.toggle("active");
+			}
+            });
+
+          
+}
+window.addEventListener('DOMContentLoaded',likests)
 //detele post
 function myLikeFunction(x) {
   x.classList.toggle("active");
