@@ -5,8 +5,8 @@
         document.getElementById("user").innerHTML = user.email
 		document.getElementById("user2").innerHTML = user.email
 		//console.log(user.uid)
-		const Cuser = firebase.auth().currentUser;
-		console.log(Cuser.email)
+		//const Cuser = firebase.auth().currentUser;
+		//console.log(Cuser.email)
     }
 })
 
@@ -229,17 +229,60 @@ fetchComments(id);
 
 //post likedby 
 function postLikes(){
-        //console.log(user.uid)
-		const Cuser = firebase.auth().currentUser;
-		console.log(Cuser)	
-	
+   firebase.auth().onAuthStateChanged((user)=>{
+    
+		
+	const cuser = firebase.auth().currentUser;
+	const commentRef = db.collection("postslikes");
+    commentRef.add({
+    
+    likeid: cuser.uid,
+    
+	postId: id,
+    timestamp:firebase.firestore.FieldValue.serverTimestamp() ,
+    })
+    .then(() => {
+    
+    })
+   .catch(error => {
+   console.error("Error adding comment: ", error);
+   // Display an error message
+   });
+		
+		
+    
+})     
 }
-postLikes()
+
+var cuser ;
+ firebase.auth().onAuthStateChanged((user)=>{
+    
+		
+  cuser = firebase.auth().currentUser;
+ 
+ 
+ })
+
+
+const delike = async () =>{
+	
+	  console.log(cuser.uid)
+	  let batch = db.batch();
+
+      const querySnapshot = await db.collection("postslikes").where("postId", "==", id).where("likeid", "==", cuser.uid).get();
+
+            querySnapshot.forEach((doc) => {
+                batch.delete(doc.ref);
+            });
+
+            return batch.commit();   
+}
+
 //detele post
 function myLikeFunction(x) {
   x.classList.toggle("active");
   if (x.classList.contains('active')) { 
-               
+               postLikes();
 			   const updatePost = async ()=>{
 				 await  db.collection("posts").doc(id).update({likes: firebase.firestore.FieldValue.increment(1)});
 			    await db.collection('posts').doc(id).get().then(snap=>{
@@ -250,7 +293,7 @@ function myLikeFunction(x) {
 			   }
 			 updatePost () 
             } else { 
-             
+             delike();
 			 const updatePost = async ()=>{
 				await db.collection("posts").doc(id).update({likes: firebase.firestore.FieldValue.increment(-1)});
 			  await db.collection('posts').doc(id).get().then(snap=>{
