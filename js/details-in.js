@@ -90,7 +90,8 @@ const getPost = async ()=>{
             </div>
         `
        if(thisuser.uid !=post.uid){
-        delPost.disabled = true;
+       document.getElementById("delete").setAttribute('disabled', true);
+	document.getElementById("delete").classList.remove("delbutton");
 		
 	   }
      })
