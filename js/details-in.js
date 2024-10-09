@@ -6,7 +6,7 @@
 		document.getElementById("user2").innerHTML = user.email
 		//console.log(user.uid)
 		const Cuser = firebase.auth().currentUser;
-		console.log(Cuser)
+		console.log(Cuser.email)
     }
 })
 
