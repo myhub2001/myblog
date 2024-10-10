@@ -225,17 +225,18 @@ function fetchComments(postId) {
 
                 </div>
             </div>
-		 `
+		 `;
+		 commentsList.innerHTML = list;
 		 if(thisuser.uid != comment.authorId){
         document.getElementById("delete2").setAttribute('disabled', true);
 		document.getElementById("delete2").classList.remove("comment_del");
 		console.log(thisuser.uid)
-		console.log(post.uid)
+		console.log(comment.authorId)
 	   };
 		}
       });
 	  // list += '</ul>';
-  commentsList.innerHTML = list;
+  
     });
 }
 
