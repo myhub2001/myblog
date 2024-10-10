@@ -166,7 +166,7 @@ function fetchComments(postId) {
 	  let list = ' ';
       snapshot.forEach(doc => {
         const comment = doc.data();
-		//console.log(doc.id)
+		console.log(doc.id)
 		var myid =doc.id
 		if (comment.timestamp!=null){
         var timestamp2 = (new Date(comment.timestamp.seconds * 1000 + comment.timestamp.nanoseconds/1000000)).toDateString()
