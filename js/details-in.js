@@ -171,7 +171,7 @@ function fetchComments(postId) {
 		if (comment.timestamp!=null){
         var timestamp2 = (new Date(comment.timestamp.seconds * 1000 + comment.timestamp.nanoseconds/1000000)).toDateString()
 		 list += `<br>
-		          <div class="post">
+		          <div id="${myid}" class="post">
                    <div class="post-author">
                     <img src="img-in/user-3.png" alt="">
                     <div>
@@ -208,7 +208,9 @@ function fetchComments(postId) {
                     </div>
                     <div class="post-activity-link">
                         <img src="img-in/comment.png">
-                        <span>Comment</span>
+                        
+						<button id="replier_btn" value="${myid}" onclick="reply_comment(this.value);"  class="comment_del">Reply</button>
+						
                     </div>
                     <div class="post-activity-link">
                         <img src="img-in/share.png">
@@ -222,9 +224,11 @@ function fetchComments(postId) {
                         <img src="img-in/delete.png">
                         <button id="delete2" value="${myid}" onclick="del_single_comment(this.value);"  class="comment_del">Delete</button>
                     </div>
-
+                     
                 </div>
+				<div class="post" id="replier"></div>
             </div>
+			
 		 `;
 		 commentsList.innerHTML = list;
 		 if(thisuser.uid != comment.authorId){
@@ -280,14 +284,36 @@ var cuser ;
  
  })
 
-  async function del_single_comment(comment_id){
+
+  function del_single_comment(comment_id){
 	
 	 
-	  await db.collection('comments').doc(comment_id).delete().then(()=>{
-        //console.log(comment_id)
-    }) 
+	   db.collection('comments').doc(comment_id).delete().then(()=>{
+		  
+		  
+		  
+         // console.log(commentsList)
+		
+    })
+const commentsList = document.getElementById("comments-list");
+		  const thiscomment = document.getElementById(comment_id);
+		   commentsList.removeChild(thiscomment);	
 }
 
+function reply_comment(comment_id){
+	var replier =  document.getElementById("replier")
+	var list =`
+	<form>
+  <label for="fname">Reply here</label><br>
+  <textarea id="w3review" name="w3review" rows="4" cols="50">
+At our website you will learn how to make a website. They offer free tutorials in all web development technologies.
+</textarea><br>
+<button id="reply_submit" value=" " onclick="submit_reply(this.value);"  class="ad-link">Submit</button>
+</form>
+	`;
+	replier.innerHTML+=list;
+
+}
 const delike = async () =>{
 	
 	  console.log(cuser.uid)
