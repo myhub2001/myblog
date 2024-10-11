@@ -222,7 +222,7 @@ function fetchComments(postId) {
                     </div>
 					<div class="post-activity-link">
                         <img src="img-in/delete.png">
-                        <button id="${myid}" value="${myid}" onclick="del_single_comment(this.value);"  class="comment_del">Delete</button>
+                        <button id="delete+${myid}" value="${myid}" onclick="del_single_comment(this.value);"  class="comment_del">Delete</button>
                     </div>
                      
                 </div>
@@ -232,8 +232,8 @@ function fetchComments(postId) {
 		 `;
 		 commentsList.innerHTML = list;
 		 if(thisuser.uid != comment.authorId){
-        document.getElementById(myid).setAttribute('disabled', true);
-		document.getElementById(myid).classList.remove("comment_del");
+        document.getElementById("delete+${myid}").setAttribute('disabled', true);
+		document.getElementById("delete+${myid}").classList.remove("comment_del");
 		console.log(thisuser.uid)
 		console.log(comment.authorId)
 	   };
